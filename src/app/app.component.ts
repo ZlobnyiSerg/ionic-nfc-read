@@ -26,17 +26,18 @@ export class AppComponent {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            // this.checkNfc();
+            this.checkNfc();
         });
     }
 
     async checkNfc() {
-        /*if (await this.nfc.enabled()) {
+        if (await this.nfc.enabled()) {
             const toast = await this.toast.create({
                 message: 'NFC Listener activated',
                 duration: 1000
             });
             await toast.present();
+            await this.addListenNFC();
         } else {
             const alert = await this.alertCtrl.create({
                 subHeader: 'NFC disabled',
@@ -48,17 +49,21 @@ export class AppComponent {
                 }]
             });
             await alert.present();
-        }*/
+        }
     }
 
     async addListenNFC() {
-        /*this.nfc.addTagDiscoveredListener(nfcEvent => {
+        this.nfc.addTagDiscoveredListener(nfcEvent => {
             console.log('sesReadNFC', nfcEvent.tag);
-        }).subscribe(data => {
+        }).subscribe(async data => {
             if (data && data.tag && data.tag.id) {
                 const tagId = this.nfc.bytesToHexString(data.tag.id);
-                console.log(tagId);
+                const toast = await this.toast.create({
+                    message: tagId,
+                    duration: 2000
+                });
+                await toast.present();
             }
-        });*/
+        });
     }
 }
